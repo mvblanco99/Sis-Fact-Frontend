@@ -19,3 +19,5 @@ export const routes = [
         ]
     }
 ]
+
+export const nameCookieSessionApp = 'cookie_clinica_backend'
