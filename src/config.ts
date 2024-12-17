@@ -1,23 +1,22 @@
 import { HiArrowSmRight, HiChartPie, HiInbox, HiShoppingBag, HiTable, HiUser } from "react-icons/hi"
-
-export const routes = [
-    {
-        icon: HiUser,
-        name:"User",
-        urls:[
-            {url:"users/create",name:"Crear Usuario"}, 
-            {url:"users/modify",name:"Modificar Usuario"},
-            {url:"users/delete",name:"Eliminar Usuario"},
-            {url:"users/view",name:"Ver Usuarios"},
-        ]
-    },
-    {
-        icon:HiShoppingBag,
-        name:"Facturas",
-        urls:[
-            {url:"facturas",name:"Crear Factura"}
-        ]
-    }
+import { IoMdCreate } from "react-icons/io";
+import { AiFillBank } from "react-icons/ai";
+export const urlsAdministrator = [ 
+  {
+    icon: HiUser,
+    name:"Usuarios",
+    urls:[
+        {url:"usuarios/ver_usuarios",name:"Ver Doctores"},
+    ]
+  },
+  {
+    icon: AiFillBank,
+    name:"Departamentos",
+    urls:[
+        {url:"departamentos/ver_departamentos",name:"Ver Doctores"},
+    ]
+  },
 ]
 
-export const nameCookieSessionApp = 'cookie_clinica_backend'
+export const nameCookieSessionApp = 'cookie_sis_fact_backend'
+

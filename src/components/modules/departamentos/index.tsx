@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-const TemplateUser = () => {
+const TemplateDepartamentos = () => {
 
 return (
   <>
@@ -11,4 +11,4 @@ return (
 )
 }
 
-export default TemplateUser
+export default TemplateDepartamentos

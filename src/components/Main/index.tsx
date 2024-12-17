@@ -1,37 +1,32 @@
 import Header from "../common/Header"
-import MyFooter from "../common/Footer"
 import MySideBar from "../common/SideBar"
+import MyFooter from "../common/Footer"
 import { Outlet } from "react-router-dom"
 
-const Main = () => {
+function Main() {
+ 
   return (
     <>
-      <div>
-        <div className="flex flex-col h-screen">
-          {/* Header */}
-          <div className="border-2 border-gray-200 shadow-sm">
+      <div className=" ">
+        <div className="flex flex-col lg:h-screen relative">
+          
+          <div className=" w-full shadow-md">
             <Header/>
           </div>
-
-          <div className="flex flex-grow">
-            
-            {/* SideBar */}
-            <div className="overflow-hidden">
-              <MySideBar/>
+ 
+          <div className="flex flex-grow overflow-hidden">
+            <div className="border-r-2 border-t-2 border-gray-200">
+                <MySideBar />
             </div>
-            
-            {/* Content */}
-            <div className="overflow-hidden">
+            <div className="w-full">
               <Outlet/>
             </div>
-
           </div>
-
-          {/* Footer */}
-          <div className="border-2 border-gray-200">
+          
+          <div className="w-full border-2 border-gray-300">
             <MyFooter/>
           </div>
-
+          
         </div>
       </div>
     </>
