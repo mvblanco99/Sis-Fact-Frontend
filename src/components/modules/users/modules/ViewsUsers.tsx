@@ -78,9 +78,10 @@ const ViewsUsers = () => {
   const deleteUser = async() => {
     try {
       const res = await apiClient.del(`/api/users/${AdminABorrar}`);
+      console.log(res)
       if(res.status === 200){
         messageToast({
-          message:res.data.body.message,
+          message:res.data.message,
           position:'bottom-right',
           theme:'colored',
           type:'success'
@@ -96,7 +97,7 @@ const ViewsUsers = () => {
       
     } catch (error) {
       //Redireccionamos por no estar autenticado
-      if(error?.response?.data.statusCode === 401){
+      if(error?.response?.status === 401){
         navigate('/login');
       }
     }

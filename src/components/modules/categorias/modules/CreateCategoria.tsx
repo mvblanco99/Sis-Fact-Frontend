@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
+import { ToastContainer } from 'react-toastify'
+import { regexName_lastname } from '../../../../utils/validators'
 import Alert from '../../../common/Alert/Alert'
-import { useForm } from 'react-hook-form';
-import { toaster } from '../../../../utils/toaster';
-import client from '../../../../api/client';
-import { regexName_lastname } from '../../../../utils/validators';
-import { useNavigate } from 'react-router-dom';
+import client from '../../../../api/client'
+import { toaster } from '../../../../utils/toaster'
+import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 
 type Inputs = {
   descripcion : string
 }
 
-const CreateDepartamento = () => {
+const CreateCategoria = () => {
   const [errorP,setErrorP] = useState<string | undefined>();
   const apiClient = client();
   const {ToastContainer, messageToast} = toaster();
@@ -22,14 +23,14 @@ const CreateDepartamento = () => {
       reset, 
       formState: { errors,} 
   } =  useForm<Inputs>();
-  
+
   const onSubmit = handleSubmit( async (data) => {
   
     const formData = new FormData();
     formData.append('descripcion', data.descripcion);
     
     try {
-      const res = await apiClient.post(`/api/departamento/store`,formData); 
+      const res = await apiClient.post(`/api/categoria/store`,formData); 
       console.log(res)
       if(res.status === 201) {
         reset()
@@ -46,12 +47,11 @@ const CreateDepartamento = () => {
         const message = err?.response.data.message;
         setErrorP(message)
         //Redireccionamos por no estar autenticado
-        if(err?.response?.data.statusCode === 401){
+        if(err?.response?.status === 401){
         navigate('/login');
       }
     }
   })
-
 
   return (
     // Container
@@ -65,17 +65,17 @@ const CreateDepartamento = () => {
         {/* Container datos personales */}
         <div className='w-full flex flex-col gap-y-3 '>
           <div>
-            <h2 className='text-xl font-semibold text-gray-900s'>Datos del departamento:</h2>
+            <h2 className='text-xl font-semibold text-gray-900s'>Datos de la categoría:</h2>
           </div>
 
           <div className='flex flex-wrap  gap-x-2 gap-y-4 sm:flex-col lg:flex-row'>
            
             {/* username */}
             <div className='sm:w-full lg:w-[45%]'>
-              <label htmlFor="descripcion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu nombre de usuario:</label>
+              <label htmlFor="descripcion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría:</label>
               <input 
                 type="text"
-                placeholder='Sistemas'    
+                placeholder='Monitores'    
                 className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                 { ...register("descripcion",{
                   required:{
@@ -105,4 +105,4 @@ const CreateDepartamento = () => {
   )
 }
 
-export default CreateDepartamento
+export default CreateCategoria

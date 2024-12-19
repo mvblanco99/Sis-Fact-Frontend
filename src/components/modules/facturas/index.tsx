@@ -1,9 +1,14 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 
-const Facturas = () => {
+const TemplateFacturas = () => {
   return (
-    <div>Facturas</div>
+    <>
+      <div className='w-full h-full'>
+          <Outlet/>
+      </div>
+    </>
   )
 }
 
-export default Facturas
+export default TemplateFacturas

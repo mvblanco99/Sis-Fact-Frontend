@@ -1,32 +1,31 @@
-import { Table } from 'flowbite-react'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify'
-import MyModal from '../../../common/Alert/Modal';
 import client from '../../../../api/client';
 import { toaster } from '../../../../utils/toaster';
+import MyModal from '../../../common/Alert/Modal';
+import { Table } from 'flowbite-react';
 
-type Departamento = {
-  descripcion:string,
-  id:number
-}
+type Category = {
+    descripcion:string,
+    id:number
+  }
 
-const ViewDepartamentos = () => {
-   // States
-   const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
-   const [filteredDepartamentos, setFilteredDepartamentos] = useState<Departamento[]>([]);
+const ViewCategory = () => {
+    // States
+   const [category, setCategory] = useState<Category[]>([]);
+   const [filteredCategory, setFilteredCategory] = useState<Category[]>([]);
    const [openModal, setOpenModal] = useState(false);
-   const [departamentoABorrar, setDepartamentoABorrar] = useState<number>()
+   const [categoryABorrar, setCategoryABorrar] = useState<number>()
   
    const navigate = useNavigate();
    const apiClient = client();
    const {ToastContainer, messageToast} = toaster();
  
-   const filterDep = (e) => {
+   const filterCategory = (e) => {
      const param = e.target.value;
  
-     let filter = departamentos.filter((dep) => {
-       const doc = `${dep.descripcion} `;
+     let filter = category.filter((cat) => {
+       const doc = `${cat.descripcion} `;
        return doc.
          toLowerCase()
          .split(' ')
@@ -36,31 +35,31 @@ const ViewDepartamentos = () => {
  
      if(e.target.value === "") filter = [];
      
-     setFilteredDepartamentos(filter)
+     setFilteredCategory(filter)
    }
  
-   const redirecToCreateAAdmin = () => navigate('/departamentos/crear_departamento')
+   const redirecToCreateACategory = () => navigate('/categorias/crear_categoria')
    
    const modalOpen = (e) => {
-     //Seteamos el doctor a borrar
-     setDepartamentoABorrar(e);
+     //Seteamos la categoria a borrar
+     setCategoryABorrar(e);
      //Abrimos el modal
      setOpenModal(true)
    };
  
    const closeModal = () => {
-     //Limpiamos el estado del doctor a borrar
-     setDepartamentoABorrar(undefined)
+     //Limpiamos el estado de la categoria a borrar
+     setCategoryABorrar(undefined)
      //Cerramos el modal
      setOpenModal(false)
    };
  
-   const fetchDepartamentos = async () => {
+   const fetchCategory = async () => {
      try {
-       const res = await apiClient.get('/api/departamento');
+       const res = await apiClient.get('/api/categoria');
        console.log(res)
        if(res.status === 200){
-         setDepartamentos(res?.data.departamentos)
+         setCategory(res?.data.categorias)
        }
        
      } catch (error) {
@@ -71,9 +70,9 @@ const ViewDepartamentos = () => {
      }
    };
    
-   const deleteDepartamento = async() => {
+   const deleteCategoria = async() => {
      try {
-       const res = await apiClient.del(`/api/departamento/${departamentoABorrar}`);
+       const res = await apiClient.del(`/api/categoria/${categoryABorrar}`);
        console.log(res)
        if(res.status === 200){
          messageToast({
@@ -83,11 +82,11 @@ const ViewDepartamentos = () => {
            type:'success'
          });
  
-         //Eliminamos el departamento borrado del estado
-         const d = departamentos.filter(e => e.id !== departamentoABorrar);
-         setDepartamentos(d)
+         //Eliminamos la categoria borrado del estado
+         const d = category.filter(e => e.id !== categoryABorrar);
+         setCategory(d)
          //Limpiamos el estado del doctor a borrar
-         setDepartamentoABorrar(undefined)
+         setCategoryABorrar(undefined)
          closeModal();
        }
        
@@ -102,13 +101,11 @@ const ViewDepartamentos = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      await fetchDepartamentos();
+      await fetchCategory();
     }
 
     fetch();
   },[])
-
-  
   return (
     <div className='w-full h-full flex flex-col gap-y-4 p-4'>
       
@@ -116,15 +113,15 @@ const ViewDepartamentos = () => {
     <div className='w-full flex justify-between items-center gap-x-4 border-2 border-gray-300 rounded-md p-2 bg-gray-50'>
       
       {/* Button */}
-      <button type="button" onClick={redirecToCreateAAdmin} className="flex text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Registrar Departamento</button>
+      <button type="button" onClick={redirecToCreateACategory} className="flex text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Registrar Categoria</button>
       
       {/* Buscador */}
       <div className='sm:w-full lg:w-[30%]'>
         <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
         <input 
           type="text"
-          onChange={filterDep}
-          placeholder='Ingresa un departamento'    
+          onChange={filterCategory}
+          placeholder='Ingresa una categoria'    
           className="bg-gray-100 border border-gray-500 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"    
         />         
       </div>
@@ -143,15 +140,15 @@ const ViewDepartamentos = () => {
     
         <Table.Body className="divide-y">
           {
-            filteredDepartamentos.length > 0
+            filteredCategory.length > 0
               ?
-                filteredDepartamentos.map(e => {
+                filteredCategory.map(e => {
                   return <Table.Row key={e.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     {e.descripcion}
                     </Table.Cell>
                     <Table.Cell className='flex gap-x-2'>
-                      <Link to={`/departamentos/modificar_departamento/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
+                      <Link to={`/categoria/modificar_categoria/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
                       <button 
                         type="button"
                         onClick={() => {
@@ -164,13 +161,13 @@ const ViewDepartamentos = () => {
                   </Table.Row>
                 })
               :
-                departamentos.map(e => {
+                category.map(e => {
                   return <Table.Row key={e.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                     {e.descripcion}
                     </Table.Cell>
                     <Table.Cell className='flex gap-x-2'>
-                      <Link to={`/departamentos/modificar_departamento/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
+                      <Link to={`/categoria/modificar_categoria/${e.id}`}><button type="button" className="w-20  text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Editar</button></Link>
                       <button 
                         type="button"
                         onClick={() => {
@@ -187,9 +184,9 @@ const ViewDepartamentos = () => {
       </Table>
       <MyModal 
         closeModal={closeModal} 
-        deleteUser={deleteDepartamento} 
+        deleteUser={deleteCategoria} 
         openModal={openModal} 
-        title='¿Está seguro de eliminar el departamento?' 
+        title='¿Está seguro de eliminar la categoria?' 
         textButton='Eliminar'
       />
     </div>
@@ -198,4 +195,4 @@ const ViewDepartamentos = () => {
   )
 }
 
-export default ViewDepartamentos
+export default ViewCategory

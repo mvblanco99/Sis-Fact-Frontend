@@ -25,7 +25,7 @@ function Header() {
      } catch (err) {
        console.log(err)
        //Redireccionamos por no estar autenticado
-       if(err?.response?.data.statusCode === 401){
+       if(err?.response?.status === 401){
         navigate('/login');
       }
      }

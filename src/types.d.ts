@@ -8,12 +8,20 @@ export type EndPointApi = '/api/auth/login'
     |'/api/auth/refresh-token'
     |'/api/auth/logout'
     |'/api/auth/changePassword'
-    |`/api/users/tipo/${users}`
+    |`/api/users/`
     |`/api/users/${string}`
     |'/api/departamento'
-    |`/api/doctores/${string}`
-    |'/api/pacientes/'
-    |`/api/pacientes/${string}`
+    |'/api/departamento/store'
+    |`/api/departamento/${string}`
+    |'/api/categoria'
+    |'/api/categoria/store'
+    |`/api/categoria/${string}`
+    |'/api/articulo'
+    |`/api/articulo/store`
+    |`/api/articulo/${string}`
+    |'/api/factura'
+    |`/api/factura/store`
+    |`/api/factura/${string}`
 
 export type ErrForActions = {
     status:number,
